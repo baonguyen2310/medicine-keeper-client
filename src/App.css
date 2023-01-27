@@ -1,38 +1,55 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+  background: linear-gradient(359.84deg, #E2E4EA 6.56%, #EAECF1 97.86%);
+}
+
+h1 {
+  color: red;
+  font-style: italic;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.alarms-container {
+  width: 360px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.alarms-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.alarms-list {
+  list-style-type: none;
+}
+
+.alarm-item-box {
+  background: linear-gradient(134.17deg, #FFFFFF 4.98%, #E6E9EF 94.88%, #E6E9EF 94.88%);
+  padding: 2px;
+  margin-bottom: 8px;
+  border-radius: 20px;
+  width: 320px;
+  height: 75px;
+  box-shadow: -5px -5px 20px rgba(255, 255, 255, 0.53), 13px 14px 12px -6px rgba(166, 180, 200, 0.57);
+}
+
+.alarm-item {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(359.84deg, #E2E4EA 6.56%, #EAECF1 97.86%);
+  display: flex;
+  align-items: center;
+  border-radius: inherit;
+}
+
+.alarm-time {
+  flex-grow: 1;
+}
+
+.add-button {
+  display: flex;
+  justify-content: center;
+
 }
