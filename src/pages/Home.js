@@ -5,6 +5,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { handleNotification } from '../features/handleNotification';
 
 const Home = () => {
     const [alarm1, setAlarm1] = useState(moment()); //ban đầu phải fetch để lấy dữ liệu đã lưu
@@ -66,6 +67,7 @@ const Home = () => {
     return (
         <div className="Home">
             <h2>Medicine Keeper</h2>
+            <button onClick={(e) => handleNotification(e)}>Notify</button>
             <div className="alarms-container">
                 <div className="alarms">
                     <ul className="alarms-list">
