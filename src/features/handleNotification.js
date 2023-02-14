@@ -80,7 +80,8 @@ async function subscribeToServer(swRegistration) {
         method: "POST",
         body: JSON.stringify(subscription),
         headers: {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
     });
 }

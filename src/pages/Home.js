@@ -8,28 +8,89 @@ import moment from 'moment';
 import { handleNotification } from '../features/handleNotification';
 
 const Home = () => {
-    const [alarm1, setAlarm1] = useState(moment()); //ban đầu phải fetch để lấy dữ liệu đã lưu
+
+    const [alarm1, setAlarm1] = useState(moment());
     const [alarm2, setAlarm2] = useState(moment());
     const [alarm3, setAlarm3] = useState(moment());
-    const [checked1, setChecked1] = useState(false); //ban đầu phải fetch để lấy dữ liệu đã lưu
+    const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
     const [checked3, setChecked3] = useState(false);
 
     const handleSwitch1 = () => {
         setChecked1(!checked1);
+        const newChecked1 = !checked1;  //dùng biến tạm vì checked1 vẫn chưa chắc được set
+        const data = {
+            checked1: newChecked1,
+            checked2: checked2,
+            checked3: checked3,
+            alarm1: alarm1.toDate(),
+            alarm2: alarm2.toDate(),
+            alarm3: alarm3.toDate()
+        }
+        console.log(data);
+
+        fetch('http://localhost:5000/alarm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(data)
+        })
     }
 
     const handleSwitch2 = () => {
         setChecked2(!checked2);
+        const newChecked2 = !checked2;
+        const data = {
+            checked1: checked1,
+            checked2: newChecked2,
+            checked3: checked3,
+            alarm1: alarm1.toDate(),
+            alarm2: alarm2.toDate(),
+            alarm3: alarm3.toDate()
+        }
+        console.log(data);
+
+        fetch('http://localhost:5000/alarm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(data)
+        })
     }
 
     const handleSwitch3 = () => {
         setChecked3(!checked3);
+        const newChecked3 = !checked3;
+        const data = {
+            checked1: checked1,
+            checked2: checked2,
+            checked3: newChecked3,
+            alarm1: alarm1.toDate(),
+            alarm2: alarm2.toDate(),
+            alarm3: alarm3.toDate()
+        }
+        console.log(data);
+
+        fetch('http://localhost:5000/alarm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(data)
+        })
     }
 
+    // Mục đích: Khi đặt giờ, thì tự động cho checked = true, và cập nhật giờ luôn
+    // Nhưng: Người dùng chỉnh giờ thay đổi liên tục trong một lần
+    // Nên: Khi đặt giờ, tự động cho checked = false để người dùng phải bấm checked thủ công
     const handleAlarm1 = (newValue) => {
         setAlarm1(newValue);
-        setChecked1(false); //Khi đặt giờ thì checked false
+        setChecked1(false);
     }
 
     const handleAlarm2 = (newValue) => {
@@ -42,27 +103,21 @@ const Home = () => {
         setChecked3(false);
     }
 
+    //get thông tin ban đầu nếu đã đăng nhập trước đó
     useEffect(() => {
-        const data = {
-            username: 'jack',
-            password: 'jack',
-            checked1: checked1,
-            checked2: checked2,
-            checked3: checked3,
-            alarm1: alarm1.toDate(),
-            alarm2: alarm2.toDate(),
-            alarm3: alarm3.toDate()
-        }
-        console.log(data);
-
-        fetch('http://localhost:5000/alarm', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+        fetch("http://localhost:5000/alarm", {
+            headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
         })
-    }, [checked1, checked2, checked3])  //khi checked thay đổi trạng thái thì post lên server
+            .then(res => res.json())
+            .then((data) => {
+                setAlarm1(moment(data.alarm1));
+                setAlarm2(moment(data.alarm2));
+                setAlarm3(moment(data.alarm3));
+                setChecked1(data.checked1);
+                setChecked2(data.checked2);
+                setChecked3(data.checked3);
+            })
+    }, [])
 
     return (
         <div className="Home">
