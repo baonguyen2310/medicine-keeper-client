@@ -1,31 +1,38 @@
 const Login = () => {
-    const handleLogin = () => {
-        const usernameInput = document.querySelector(".username_input");
-        const passwordInput = document.querySelector(".password_input");
-        const data = {
-            username: usernameInput.value,
-            password: passwordInput.value,
-        }
-        fetch('http://localhost:5000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                localStorage.setItem('accessToken', data.accessToken);
-            })
-    }
+  const handleLogin = () => {
+    const usernameInput = document.querySelector(".username_input");
+    const passwordInput = document.querySelector(".password_input");
+    const data = {
+      username: usernameInput.value,
+      password: passwordInput.value,
+    };
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.status == 200) {
+        res.json().then((data) => {
+          localStorage.setItem("accessToken", data.accessToken);
+          alert("Đăng nhập thành công");
+          window.location.replace("http://localhost:3000");
+        });
+      } else {
+        alert("Sai tên đăng nhập hoặc mật khẩu");
+        window.location.reload();
+      }
+    });
+  };
 
-    return (
-        <div className="login">
-            <input placeHolder="username" className="username_input"></input>
-            <input placeHolder="password" className="password_input"></input>
-            <button onClick={handleLogin}></button>
-        </div>
-    )
-}
+  return (
+    <div className="login">
+      <input placeholder="username" className="username_input"></input>
+      <input placeholder="password" className="password_input"></input>
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+};
 
 export default Login;

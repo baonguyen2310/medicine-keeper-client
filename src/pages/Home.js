@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { handleNotification } from '../features/handleNotification';
 
@@ -119,10 +120,13 @@ const Home = () => {
             })
     }, [])
 
+
     return (
         <div className="Home">
             <h2>Medicine Keeper</h2>
             <button onClick={(e) => handleNotification(e)}>Notify</button>
+            <Link to='/register'>Register</Link>
+            <Link to='/login'>Login</Link>
             <div className="alarms-container">
                 <div className="alarms">
                     <ul className="alarms-list">

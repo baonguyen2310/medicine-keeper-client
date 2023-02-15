@@ -2,9 +2,11 @@ const Register = () => {
     const handleRegister = () => {
         const usernameInput = document.querySelector(".username_input");
         const passwordInput = document.querySelector(".password_input");
+        const espcodeInput = document.querySelector(".espcode_input");
         const data = {
             username: usernameInput.value,
             password: passwordInput.value,
+            ESPCODE: espcodeInput.value
         }
         fetch('http://localhost:5000/register', {
             method: 'POST',
@@ -13,13 +15,23 @@ const Register = () => {
             },
             body: JSON.stringify(data)
         })
+            .then((res) => {
+                if (res.status == 200) {
+                    alert("Đăng ký thành công");
+                    window.location.replace("http://localhost:3000/login");
+                } else {
+                    alert("Tên đăng nhập hoặc ESPCODE đã được sử dụng");
+                    window.location.reload();
+                }
+            })
     }
 
     return (
         <div className="register">
-            <input placeHolder="username" className="username_input"></input>
-            <input placeHolder="password" className="password_input"></input>
-            <button onClick={handleRegister}></button>
+            <input placeholder="username" className="username_input"></input>
+            <input placeholder="password" className="password_input"></input>
+            <input placeholder="ESPCODE" className="espcode_input"></input>
+            <button onClick={handleRegister}>Register</button>
         </div>
     )
 }
