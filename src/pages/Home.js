@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { handleNotification } from '../features/handleNotification';
+import { HOST } from '../App';
 
 const Home = () => {
 
@@ -30,7 +31,7 @@ const Home = () => {
         }
         console.log(data);
 
-        fetch('http://localhost:5000/alarm', {
+        fetch(`${HOST}/alarm`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ const Home = () => {
         }
         console.log(data);
 
-        fetch('http://localhost:5000/alarm', {
+        fetch(`${HOST}/alarm`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ const Home = () => {
         }
         console.log(data);
 
-        fetch('http://localhost:5000/alarm', {
+        fetch(`${HOST}/alarm`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ const Home = () => {
 
     //get thông tin ban đầu nếu đã đăng nhập trước đó
     useEffect(() => {
-        fetch("http://localhost:5000/alarm", {
+        fetch(`${HOST}/alarm`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
         })
             .then(res => res.json())

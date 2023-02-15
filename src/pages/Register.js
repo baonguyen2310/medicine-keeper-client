@@ -1,3 +1,5 @@
+import { HOST } from "../App";
+
 const Register = () => {
     const handleRegister = () => {
         const usernameInput = document.querySelector(".username_input");
@@ -8,7 +10,7 @@ const Register = () => {
             password: passwordInput.value,
             ESPCODE: espcodeInput.value
         }
-        fetch('http://localhost:5000/register', {
+        fetch(`${HOST}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -18,7 +20,7 @@ const Register = () => {
             .then((res) => {
                 if (res.status == 200) {
                     alert("Đăng ký thành công");
-                    window.location.replace("http://localhost:3000/login");
+                    window.location.replace("/login");
                 } else {
                     alert("Tên đăng nhập hoặc ESPCODE đã được sử dụng");
                     window.location.reload();

@@ -1,3 +1,5 @@
+import { HOST } from "../App";
+
 const Login = () => {
   const handleLogin = () => {
     const usernameInput = document.querySelector(".username_input");
@@ -6,7 +8,7 @@ const Login = () => {
       username: usernameInput.value,
       password: passwordInput.value,
     };
-    fetch("http://localhost:5000/login", {
+    fetch(`${HOST}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +19,7 @@ const Login = () => {
         res.json().then((data) => {
           localStorage.setItem("accessToken", data.accessToken);
           alert("Đăng nhập thành công");
-          window.location.replace("http://localhost:3000");
+          window.location.replace("/");
         });
       } else {
         alert("Sai tên đăng nhập hoặc mật khẩu");
