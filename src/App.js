@@ -4,8 +4,8 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
-//const HOST = "http://localhost:5000";
-const HOST = "https://medicine-keeper-server.onrender.com";
+const HOST = "http://localhost:5000";
+//const HOST = "https://medicine-keeper-server.onrender.com";
 export {HOST};
 
 const App = () => {
