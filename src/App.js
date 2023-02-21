@@ -5,7 +5,10 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 
 //const HOST = "http://localhost:5000";
-const HOST = "https://medicine-keeper-server.onrender.com";
+//const HOST = "https://blue-violet-centipede-sock.cyclic.app";
+//const HOST = "https://medicine-keeper-server.onrender.com";
+const HOST = "https://medicine-keeper-server-production.up.railway.app";
+
 export {HOST};
 
 const App = () => {

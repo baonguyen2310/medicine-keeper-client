@@ -3,7 +3,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { TextField } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { handleNotification } from '../features/handleNotification';
@@ -17,6 +17,9 @@ const Home = () => {
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
     const [checked3, setChecked3] = useState(false);
+    const [isTook1, setIsTook1] = useState(false);
+    const [isTook2, setIsTook2] = useState(false);
+    const [isTook3, setIsTook3] = useState(false);
 
     const handleSwitch1 = () => {
         setChecked1(!checked1);
@@ -105,8 +108,13 @@ const Home = () => {
         setChecked3(false);
     }
 
-    //get thông tin ban đầu nếu đã đăng nhập trước đó
+    //Bắt buộc refresh khi cập nhật ở cả client hay esp
+    //get thông tin ban đầu nếu đã đăng nhập trước đó: refresh
+    //đếm giờ bằng settimout kết hợp date tối ưu hơn vạn lần dùng setinterval
     useEffect(() => {
+        const audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+        let timer1;
+        let timer1IsTook;
         fetch(`${HOST}/alarm`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
         })
@@ -118,9 +126,39 @@ const Home = () => {
                 setChecked1(data.checked1);
                 setChecked2(data.checked2);
                 setChecked3(data.checked3);
+                setIsTook1(data.isTook1);
+                setIsTook2(data.isTook2);
+                setIsTook3(data.isTook3);
+                
+                const date = new Date();
+                let offset1 = moment(data.alarm1).hours() - date.getHours() + moment(data.alarm1).minutes()/60 - date.getMinutes()/60;
+                if (offset1 < 0){
+                    offset1 += 1440 //cộng thêm 24 tiếng = 24*60 phút
+                }
+                // if (data.checked1 == true) {
+                //     timer1 = setTimeout(() => {
+                //         audio.play();
+                //         alert("Đến giờ uống thuốc buổi sáng");
+                //     }, offset1*60*1000);
+                // }
+                timer1IsTook = setTimeout(() => {
+                    fetch(`${HOST}/alarm`, {
+                        headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
+                    })
+                        .then(res => res.json())
+                        .then((data) => {
+                            if (data.checked1 == true && data.isTook1 == false) {
+                                audio.play();
+                                alert("Đã quá 5 phút chưa uống thuốc");
+                            }
+                        })
+                }, offset1*60*1000 + 5*60*1000);
             })
+        return () => {
+            clearTimeout(timer1);
+            clearTimeout(timer1IsTook);
+        }
     }, [])
-
 
     return (
         <div className="Home">
