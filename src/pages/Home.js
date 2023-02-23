@@ -113,8 +113,9 @@ const Home = () => {
     //đếm giờ bằng settimout kết hợp date tối ưu hơn vạn lần dùng setinterval
     useEffect(() => {
         const audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
-        let timer1;
         let timer1IsTook;
+        let timer2IsTook;
+        let timer3IsTook;
         fetch(`${HOST}/alarm`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
         })
@@ -132,15 +133,17 @@ const Home = () => {
                 
                 const date = new Date();
                 let offset1 = moment(data.alarm1).hours() - date.getHours() + moment(data.alarm1).minutes()/60 - date.getMinutes()/60;
+                let offset2 = moment(data.alarm2).hours() - date.getHours() + moment(data.alarm2).minutes()/60 - date.getMinutes()/60;
+                let offset3 = moment(data.alarm3).hours() - date.getHours() + moment(data.alarm3).minutes()/60 - date.getMinutes()/60;
                 if (offset1 < 0){
                     offset1 += 1440 //cộng thêm 24 tiếng = 24*60 phút
                 }
-                // if (data.checked1 == true) {
-                //     timer1 = setTimeout(() => {
-                //         audio.play();
-                //         alert("Đến giờ uống thuốc buổi sáng");
-                //     }, offset1*60*1000);
-                // }
+                if (offset2 < 0){
+                    offset2 += 1440 //cộng thêm 24 tiếng = 24*60 phút
+                }
+                if (offset3 < 0){
+                    offset3 += 1440 //cộng thêm 24 tiếng = 24*60 phút
+                }
                 timer1IsTook = setTimeout(() => {
                     fetch(`${HOST}/alarm`, {
                         headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
@@ -153,10 +156,35 @@ const Home = () => {
                             }
                         })
                 }, offset1*60*1000 + 5*60*1000);
+                timer2IsTook = setTimeout(() => {
+                    fetch(`${HOST}/alarm`, {
+                        headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
+                    })
+                        .then(res => res.json())
+                        .then((data) => {
+                            if (data.checked2 == true && data.isTook2 == false) {
+                                audio.play();
+                                alert("Đã quá 5 phút chưa uống thuốc");
+                            }
+                        })
+                }, offset2*60*1000 + 5*60*1000);
+                timer3IsTook = setTimeout(() => {
+                    fetch(`${HOST}/alarm`, {
+                        headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}
+                    })
+                        .then(res => res.json())
+                        .then((data) => {
+                            if (data.checked3 == true && data.isTook3 == false) {
+                                audio.play();
+                                alert("Đã quá 5 phút chưa uống thuốc");
+                            }
+                        })
+                }, offset3*60*1000 + 5*60*1000);
             })
         return () => {
-            clearTimeout(timer1);
             clearTimeout(timer1IsTook);
+            clearTimeout(timer2IsTook);
+            clearTimeout(timer3IsTook);
         }
     }, [])
 
@@ -179,6 +207,8 @@ const Home = () => {
                                 />
                             </LocalizationProvider>
                             <Switch className="alarm-switch" checked={checked1} onChange={handleSwitch1} />
+                            <label htmlFor="isTook1">Đã uống: </label>
+                            <input type="checkbox" id="isTook1" checked={isTook1} disabled />
                         </li>
                         <li className="alarm-item">
                             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -190,6 +220,8 @@ const Home = () => {
                                 />
                             </LocalizationProvider>
                             <Switch className="alarm-switch" checked={checked2} onChange={handleSwitch2} />
+                            <label htmlFor="isTook2">Đã uống: </label>
+                            <input type="checkbox" id="isTook2" checked={isTook2} disabled />
                         </li>
                         <li className="alarm-item">
                             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -201,6 +233,8 @@ const Home = () => {
                                 />
                             </LocalizationProvider>
                             <Switch className="alarm-switch" checked={checked3} onChange={handleSwitch3} />
+                            <label htmlFor="isTook3">Đã uống: </label>
+                            <input type="checkbox" id="isTook3" checked={isTook3} disabled />
                         </li>
                     </ul>
                 </div>
