@@ -1,5 +1,5 @@
 import { HOST } from "../App";
-
+import '../asset/css/style.css';
 const Register = () => {
     const handleRegister = () => {
         const usernameInput = document.querySelector(".username_input");
@@ -33,7 +33,7 @@ const Register = () => {
             <input placeholder="username" className="username_input"></input>
             <input placeholder="password" className="password_input"></input>
             <input placeholder="ESPCODE" className="espcode_input"></input>
-            <button onClick={handleRegister}>Register</button>
+            <button className="register-btn" onClick={handleRegister}>Register</button>
         </div>
     )
 }
