@@ -1,4 +1,5 @@
 import { HOST } from "../App";
+import '../asset/css/style.css';
 
 const Login = () => {
   const handleLogin = () => {
@@ -32,7 +33,7 @@ const Login = () => {
     <div className="login">
       <input placeholder="username" className="username_input"></input>
       <input placeholder="password" className="password_input"></input>
-      <button onClick={handleLogin}>Login</button>
+      <button className="login-btn" onClick={handleLogin}>Login</button>
     </div>
   );
 };

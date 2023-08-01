@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { handleNotification } from '../features/handleNotification';
 import { HOST } from '../App';
+import '../asset/css/style.css';
 
 const Home = () => {
 
@@ -191,7 +192,7 @@ const Home = () => {
     return (
         <div className="Home">
             <h2>Medicine Keeper</h2>
-            <button onClick={(e) => handleNotification(e)}>Notify</button>
+            <button className="notify-btn" onClick={(e) => handleNotification(e)}>Notify</button>
             <Link to='/register'>Register</Link>
             <Link to='/login'>Login</Link>
             <div className="alarms-container">

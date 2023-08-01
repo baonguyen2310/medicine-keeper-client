@@ -1,0 +1,15 @@
+.notify-btn{
+    background-color: blue;
+    color:white;
+}
+.login-btn{
+    background-color: blueviolet;
+    color:white;
+}
+.login{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    align-items: center;
+    
+}
